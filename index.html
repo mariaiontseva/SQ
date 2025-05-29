@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Preview</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <!-- Modal Container -->
+        <div class="modal-container">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">Preview Post</h2>
+                <button class="close-button" id="closeButton" aria-label="Close modal">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.5 7.5L7.5 22.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.5 7.5L22.5 22.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Tabs (hidden on desktop) -->
+            <div class="mobile-tabs">
+                <button class="mobile-tab active" data-tab="preview">Preview</button>
+                <button class="mobile-tab" data-tab="comments">Comments</button>
+            </div>
+            
+            <!-- Modal Content -->
+            <div class="modal-content">
+                <!-- Left Column -->
+                <div class="modal-column modal-column-left">
+                    <div class="post-preview">
+                        <!-- Post Header -->
+                        <div class="post-header">
+                            <div class="post-author-info">
+                                <div class="post-author-avatar">
+                                    <img src="data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='28' cy='28' r='28' fill='%23E0E0E0'/%3E%3Cpath d='M28 28C31.866 28 35 24.866 35 21C35 17.134 31.866 14 28 14C24.134 14 21 17.134 21 21C21 24.866 24.134 28 28 28Z' fill='%23999'/%3E%3Cpath d='M28 32C22.477 32 18 36.477 18 42V44H38V42C38 36.477 33.523 32 28 32Z' fill='%23999'/%3E%3C/svg%3E" alt="Peter Johnson">
+                                    <div class="instagram-badge">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.00203 2.06376C7.28528 2.06376 7.43725 2.06939 7.94192 2.09189C8.41094 2.11252 8.66422 2.19129 8.83307 2.25693C9.05632 2.34319 9.21767 2.44821 9.38464 2.61512C9.55349 2.7839 9.65667 2.94331 9.74297 3.16648C9.80864 3.33526 9.88743 3.59031 9.90807 4.05728C9.93058 4.56363 9.93621 4.71553 9.93621 5.99641C9.93621 7.27916 9.93058 7.43106 9.90807 7.93553C9.88743 8.40438 9.80864 8.65755 9.74297 8.82633C9.65667 9.0495 9.55161 9.21078 9.38464 9.37769C9.21579 9.54647 9.05632 9.64962 8.83307 9.73589C8.66422 9.80152 8.40907 9.88029 7.94192 9.90092C7.43537 9.92342 7.28341 9.92905 6.00203 9.92905C4.71878 9.92905 4.56682 9.92342 4.06215 9.90092C3.59312 9.88029 3.33985 9.80152 3.171 9.73589C2.94774 9.64962 2.7864 9.5446 2.61943 9.37769C2.45058 9.20891 2.34739 9.0495 2.26109 8.82633C2.19543 8.65755 2.11663 8.4025 2.09599 7.93553C2.07348 7.42919 2.06785 7.27728 2.06785 5.99641C2.06785 4.71365 2.07348 4.56175 2.09599 4.05728C2.11663 3.58843 2.19543 3.33526 2.26109 3.16648C2.34739 2.94331 2.45245 2.78203 2.61943 2.61512C2.78827 2.44634 2.94774 2.34319 3.171 2.25693C3.33985 2.19129 3.595 2.11252 4.06215 2.09189C4.56682 2.06939 4.71878 2.06376 6.00203 2.06376ZM6.00203 1.19922C4.69814 1.19922 4.53492 1.20484 4.02275 1.22735C3.51245 1.24985 3.16162 1.33237 2.85769 1.45052C2.54063 1.57429 2.27235 1.73745 2.00594 2.00563C1.73766 2.27193 1.57444 2.54011 1.45062 2.85517C1.33242 3.16085 1.24987 3.50967 1.22736 4.01977C1.20485 4.53362 1.19922 4.69678 1.19922 6.00016C1.19922 7.30354 1.20485 7.46669 1.22736 7.97867C1.24987 8.48877 1.33242 8.83946 1.45062 9.14327C1.57444 9.46021 1.73766 9.72838 2.00594 9.99469C2.27235 10.261 2.54063 10.426 2.85581 10.5479C3.16162 10.6661 3.51057 10.7486 4.02087 10.7711C4.53305 10.7936 4.69627 10.7992 6.00016 10.7992C7.30404 10.7992 7.46727 10.7936 7.97944 10.7711C8.48974 10.7486 8.84057 10.6661 9.1445 10.5479C9.45968 10.426 9.72796 10.261 9.99437 9.99469C10.2608 9.72838 10.4259 9.46021 10.5478 9.14515C10.666 8.83946 10.7486 8.49064 10.7711 7.98054C10.7936 7.46857 10.7992 7.30541 10.7992 6.00203C10.7992 4.69865 10.7936 4.5355 10.7711 4.02352C10.7486 3.51342 10.666 3.16273 10.5478 2.85892C10.4296 2.54011 10.2664 2.27193 9.99812 2.00563C9.73172 1.73932 9.46344 1.57429 9.14825 1.45239C8.84245 1.33425 8.49349 1.25173 7.98319 1.22922C7.46914 1.20484 7.30592 1.19922 6.00203 1.19922Z" fill="white"/>
+                                            <path d="M6.00223 3.5332C4.64018 3.5332 3.53516 4.63779 3.53516 5.99931C3.53516 7.36083 4.64018 8.46542 6.00223 8.46542C7.36427 8.46542 8.4693 7.36083 8.4693 5.99931C8.4693 4.63779 7.36427 3.5332 6.00223 3.5332ZM6.00223 7.599C5.11858 7.599 4.40191 6.88261 4.40191 5.99931C4.40191 5.11601 5.11858 4.39962 6.00223 4.39962C6.88587 4.39962 7.60254 5.11601 7.60254 5.99931C7.60254 6.88261 6.88587 7.599 6.00223 7.599Z" fill="white"/>
+                                            <path d="M9.14216 3.43707C9.14216 3.75588 8.88326 4.0128 8.5662 4.0128C8.24726 4.0128 7.99023 3.754 7.99023 3.43707C7.99023 3.11825 8.24914 2.86133 8.5662 2.86133C8.88326 2.86133 9.14216 3.12013 9.14216 3.43707Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="post-author-details">
+                                    <h3 class="post-author-name">Peter Johnson</h3>
+                                    <p class="post-author-subtitle">Personal Profile</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post Image -->
+                        <div class="post-image">
+                            <img src="https://images.pexels.com/photos/3014019/pexels-photo-3014019.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&dpr=1" alt="Man in orange turban">
+                        </div>
+                        
+                        <!-- Post Actions -->
+                        <div class="post-actions">
+                            <button class="post-action-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.5 3C14.76 3 13.09 3.81 12 5.09C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.42 2 8.5C2 12.28 12 21 12 21S22 12.28 22 8.5C22 5.42 19.58 3 16.5 3Z" stroke="#666" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                            <button class="post-action-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C13.19 22 14.34 21.78 15.41 21.37L21 22L20.37 16.41C21.78 14.34 22 13.19 22 12C22 6.48 17.52 2 12 2Z" stroke="#666" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                            <button class="post-action-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 12L14 5V9C7 10 4 15 3 20C5.5 16.5 9 14.9 14 14.9V19L21 12Z" stroke="#666" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                            <button class="post-action-btn bookmark-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 3H19C19.5523 3 20 3.44772 20 4V21L12 17L4 21V4C4 3.44772 4.44772 3 5 3Z" stroke="#666" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Post Caption -->
+                        <div class="post-caption">
+                            <p><span class="post-username">profile.name</span> Our house selection has a mild, clean taste – it is surprisingly complex</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column Separator -->
+                <div class="column-separator"></div>
+                
+                <!-- Right Column -->
+                <div class="modal-column modal-column-right">
+                    <div class="comments-content">
+                        <h3 class="comments-title">Comments</h3>
+                        <div class="comments-list">
+                            <!-- Comment 1 -->
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="14" cy="14" r="14" fill="#7BB4D5"/>
+                                        <g transform="translate(5, 4.5)">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9705 6.26907C12.9705 8.47184 11.2043 10.2381 9 10.2381C6.79643 10.2381 5.02951 8.47184 5.02951 6.26907C5.02951 4.0663 6.79643 2.30078 9 2.30078C11.2043 2.30078 12.9705 4.0663 12.9705 6.26907ZM9 17.3008C5.74678 17.3008 3 16.772 3 14.732C3 12.6912 5.76404 12.1812 9 12.1812C12.254 12.1812 15 12.71 15 14.75C15 16.7908 12.236 17.3008 9 17.3008Z" fill="white"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">John Donn</span>
+                                        <span class="comment-dot">•</span>
+                                        <span class="comment-time">2 days ago</span>
+                                    </div>
+                                    <div class="comment-text">
+                                        Why does this modal have more padding than my winter jacket? 😅
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Comment 2 -->
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="14" cy="14" r="14" fill="#C8A9E1"/>
+                                        <g transform="translate(5, 4.5)">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9705 6.26907C12.9705 8.47184 11.2043 10.2381 9 10.2381C6.79643 10.2381 5.02951 8.47184 5.02951 6.26907C5.02951 4.0663 6.79643 2.30078 9 2.30078C11.2043 2.30078 12.9705 4.0663 12.9705 6.26907ZM9 17.3008C5.74678 17.3008 3 16.772 3 14.732C3 12.6912 5.76404 12.1812 9 12.1812C12.254 12.1812 15 12.71 15 14.75C15 16.7908 12.236 17.3008 9 17.3008Z" fill="white"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">Kate Johns</span>
+                                        <span class="comment-dot">•</span>
+                                        <span class="comment-time">2 days ago</span>
+                                    </div>
+                                    <div class="comment-text">
+                                        At least it's responsive! Unlike my last design that broke when someone sneezed at their phone 🤧
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comment Input Section -->
+                    <div class="comment-input-section">
+                        <div class="comment-input-wrapper">
+                            <textarea class="comment-input" placeholder="Add a comment"></textarea>
+                            <button class="emoji-button" aria-label="Add emoji">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_117282_181799)">
+                                        <path d="M18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9Z" fill="#F2A40D"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.51059 11.6698C4.83431 11.4389 5.28394 11.5141 5.51486 11.8379C7.17849 14.1701 10.633 14.2017 12.3391 11.9003L12.3933 11.8272C12.6301 11.5078 13.081 11.4408 13.4005 11.6776C13.7199 11.9144 13.7869 12.3653 13.5501 12.6848L13.4959 12.7579C11.2075 15.8447 6.57398 15.8023 4.34256 12.6741C4.11164 12.3504 4.18687 11.9008 4.51059 11.6698Z" fill="#092F54"/>
+                                        <path d="M6.92871 6.78082C6.92871 6.1193 6.47998 5.58082 5.92871 5.58082C5.37744 5.58082 4.92871 6.1193 4.92871 6.78082C4.92871 7.44234 5.37744 7.98082 5.92871 7.98082C6.47998 7.98082 6.92871 7.44234 6.92871 6.78082Z" fill="#072653"/>
+                                        <path d="M11.9717 5.58081C11.4204 5.58081 10.9717 6.11929 10.9717 6.78081C10.9717 7.44233 11.4204 7.98081 11.9717 7.98081C12.5229 7.98081 12.9717 7.44233 12.9717 6.78081C12.9717 6.11929 12.5229 5.58081 11.9717 5.58081Z" fill="#072653"/>
+                                        <path d="M6.92871 6.78082C6.92871 6.1193 6.47998 5.58082 5.92871 5.58082C5.37744 5.58082 4.92871 6.1193 4.92871 6.78082C4.92871 7.44234 5.37744 7.98082 5.92871 7.98082C6.47998 7.98082 6.92871 7.44234 6.92871 6.78082Z" fill="#072653"/>
+                                        <path d="M11.9717 5.58081C11.4204 5.58081 10.9717 6.11929 10.9717 6.78081C10.9717 7.44233 11.4204 7.98081 11.9717 7.98081C12.5229 7.98081 12.9717 7.44233 12.9717 6.78081C12.9717 6.11929 12.5229 5.58081 11.9717 5.58081Z" fill="#072653"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_117282_181799">
+                                            <rect width="18" height="18" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+                            <button class="add-comment-button" disabled>
+                                <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.4294 0.955821L1.52312 9.12895C1.37268 9.20921 1.24851 9.33106 1.16541 9.47996C1.08231 9.62886 1.0438 9.79852 1.05448 9.9687C1.06515 10.1389 1.12456 10.3024 1.2256 10.4397C1.32665 10.5771 1.46508 10.6825 1.62437 10.7433L5.7025 12.2564L5.95 15.7158C5.97498 16.0421 6.09687 16.3535 6.30002 16.6101C6.50317 16.8666 6.77832 17.0566 7.09019 17.1558C7.40207 17.2549 7.73644 17.2586 8.05043 17.1664C8.36442 17.0742 8.64372 16.8903 8.8525 16.6383L10.8662 14.1746L15.2425 15.8002C15.3701 15.8473 15.5067 15.8645 15.642 15.8505C15.7773 15.8365 15.9075 15.7916 16.0227 15.7193C16.1379 15.6471 16.235 15.5493 16.3064 15.4336C16.3779 15.318 16.4219 15.1874 16.435 15.0521L17.7456 1.82207C17.762 1.66048 17.7338 1.4975 17.664 1.35082C17.5943 1.20415 17.4857 1.07939 17.35 0.9901C17.2143 0.900812 17.0568 0.850409 16.8945 0.844366C16.7322 0.838322 16.5713 0.87687 16.4294 0.955821ZM14.7812 5.45582L9.8425 12.5321C9.64362 12.7934 9.35133 12.9676 9.02685 13.0183C8.70237 13.0689 8.37089 12.992 8.10185 12.8037C7.83281 12.6153 7.64709 12.3302 7.58359 12.008C7.5201 11.6858 7.58377 11.3515 7.76125 11.0752C7.86812 10.9289 13.8812 4.9552 13.9994 4.82582C14.0859 4.72139 14.2104 4.65561 14.3454 4.64295C14.4804 4.6303 14.6149 4.67179 14.7194 4.75832C14.8238 4.84485 14.8896 4.96932 14.9022 5.10434C14.9149 5.23937 14.8734 5.37389 14.7869 5.47832L14.7812 5.45582Z" fill="white"/>
+                                </svg>
+                                <span>Add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Actions (Sticky Footer) -->
+            <div class="modal-actions">
+                <button class="edit-post-button">Edit Post</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

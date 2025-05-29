@@ -1,0 +1,8 @@
+{
+  "name": "modal-project",
+  "version": "1.0.0",
+  "description": "Responsive modal component",
+  "scripts": {
+    "start": "python3 -m http.server 8000"
+  }
+}

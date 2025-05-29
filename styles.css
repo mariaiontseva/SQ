@@ -1,0 +1,795 @@
+/* Import Proxima Nova font (you may need to add your own font files) */
+@font-face {
+    font-family: 'Proxima Nova';
+    src: url('fonts/ProximaNova-Regular.woff2') format('woff2'),
+         url('fonts/ProximaNova-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Proxima Nova';
+    src: url('fonts/ProximaNova-Bold.woff2') format('woff2'),
+         url('fonts/ProximaNova-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #072653;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Modal Container */
+.modal-container {
+    background-color: #ffffff;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 1064px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 24px;
+    height: 64px;
+    flex-shrink: 0;
+    background: white;
+}
+
+.modal-title {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 22px */
+    letter-spacing: 0.22px;
+    color: #072653;
+}
+
+/* Close Button */
+.close-button {
+    background: none;
+    border: none;
+    width: 46px;
+    height: 46px;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #072653;
+    transition: all 0.2s ease;
+}
+
+.close-button svg {
+    width: 30px;
+    height: 30px;
+}
+
+.close-button:hover {
+    background-color: rgba(7, 38, 83, 0.05);
+}
+
+.close-button:active {
+    transform: scale(0.95);
+}
+
+/* Modal Content */
+.modal-content {
+    flex: 1;
+    display: flex;
+    background-color: rgba(205, 217, 233, 0.5); /* #CDD9E9 at 50% opacity */
+    min-height: 0; /* Ensures proper flex behavior */
+    overflow: hidden;
+}
+
+/* Global scrollbar styling for all scrollable areas */
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+    background-color: #CDD9E9;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #B8C8DD;
+}
+
+/* Modal Columns */
+.modal-column {
+    flex: 1 1 50%;
+    min-width: 0;
+    overflow-y: auto;
+}
+
+.modal-column-left {
+    padding: 16px;
+}
+
+.modal-column-right {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-content {
+    flex: 1;
+    padding: 0 16px 16px 16px;
+    overflow-y: auto;
+    background-color: transparent;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+/* Custom scrollbar for comments area */
+.comments-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Comments Title */
+.comments-title {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 26.4px */
+    letter-spacing: 0.22px;
+    color: #072653;
+    margin: 20px 0 20px 0;
+}
+
+/* Comments List */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Comment Item */
+.comment-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px 16px 16px 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #CDD9E9;
+}
+
+.comment-avatar {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+}
+
+.comment-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.comment-author {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.32px;
+    color: #072653;
+}
+
+.comment-dot {
+    color: #9CA3AF;
+    font-size: 12px;
+}
+
+.comment-time {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    color: #2C476C;
+}
+
+.comment-text {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 140%; /* 22.4px */
+    letter-spacing: 0.16px;
+    color: #072653;
+    padding: 0 16px 0 0;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Column Separator */
+.column-separator {
+    width: 1px;
+    background-color: #CDD9E9;
+    flex-shrink: 0;
+}
+
+/* Comment Input Section */
+.comment-input-section {
+    height: 96px;
+    border-top: 1px solid #CDD9E9;
+    background-color: #E6ECF4; /* Correct light background */
+    padding: 16px 16px 16px 16px; /* 16px all around including right */
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.comment-input-section.expanded {
+    height: 140px; /* Default: 108px input + 32px padding */
+    margin-top: -44px; /* Default growth upward */
+}
+
+.comment-input-wrapper {
+    position: relative;
+    height: 64px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #CDD9E9;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* White background area for buttons */
+.comment-input-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    background: white;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.comment-input-section.expanded .comment-input-wrapper {
+    height: 108px;
+}
+
+.comment-input {
+    position: absolute;
+    left: 16px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #072653;
+    pointer-events: auto;
+    padding: 20px 8px 20px 0; /* Center the placeholder vertically */
+    resize: none;
+    overflow-y: hidden;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+/* Hide scrollbar by default, show only when needed */
+.comment-input {
+    scrollbar-width: none; /* Firefox */
+}
+
+.comment-input::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+/* Show scrollbar when there's overflow */
+.comment-input-section.expanded .comment-input {
+    scrollbar-width: thin; /* Firefox */
+}
+
+.comment-input-section.expanded .comment-input::-webkit-scrollbar {
+    width: 6px !important;
+    display: block !important;
+}
+
+.comment-input-section.expanded .comment-input {
+    pointer-events: auto;
+    top: 0; /* Reset to top when expanded */
+    bottom: 72px; /* 64px for button area + 8px gap */
+    padding: 12px 16px 0 0; /* 12px top, 16px right padding when expanded */
+    overflow-y: auto;
+}
+
+.comment-input::placeholder {
+    color: #9CA3AF;
+    opacity: 1;
+}
+
+.emoji-button {
+    position: absolute;
+    right: 116px; /* 12px gap from Add button */
+    bottom: 12px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    border-radius: 4px;
+}
+
+.emoji-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.add-comment-button {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    background-color: #6B9BD1;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: not-allowed;
+    padding: 0 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    z-index: 3;
+}
+
+.add-comment-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.add-comment-button.active {
+    background-color: #4075BF;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.add-comment-button.active:hover {
+    background-color: #365A9E;
+}
+
+.add-comment-button svg {
+    width: 19px;
+    height: 18px;
+}
+
+/* Modal Actions - Sticky Footer */
+.modal-actions {
+    background-color: #ffffff;
+    height: 96px;
+    padding: 24px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.edit-post-button {
+    height: 48px;
+    background-color: #4075BF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0 24px;
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.edit-post-button:hover {
+    background-color: #255DAD;
+}
+
+/* Post Preview Styles */
+.post-preview {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #CDD9E9;
+    overflow: hidden;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.post-author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.post-author-avatar {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.post-author-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.instagram-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    background: #E1306C;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.instagram-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+.post-author-details h3 {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.32px;
+    color: #072653;
+    margin: 0;
+}
+
+.post-author-details p {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 12px */
+    letter-spacing: 0.24px;
+    color: #666;
+    margin: 4px 0 0 0;
+}
+
+.notification-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #F0F5FB;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.notification-button span {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6B9BD1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notification-button:hover {
+    background: #E6ECF4;
+}
+
+.post-image {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+}
+
+.post-action-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.post-action-btn:hover {
+    transform: scale(1.1);
+}
+
+.post-action-btn:active {
+    transform: scale(0.95);
+}
+
+.bookmark-btn {
+    margin-left: auto;
+}
+
+.post-caption {
+    padding: 0 16px 16px 16px;
+}
+
+.post-caption p {
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+}
+
+.post-username {
+    font-weight: 600;
+    color: #072653;
+}
+
+/* Mobile Tabs */
+.mobile-tabs {
+    display: none;
+    flex-direction: row;
+    background: white;
+    margin-top: 1px;
+}
+
+.mobile-tab {
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.mobile-tab.active {
+    color: #4075BF;
+}
+
+.mobile-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #4075BF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mobile-tabs {
+        display: flex;
+    }
+    
+    .modal-header {
+        border-bottom: 1px solid #E6ECF4;
+    }
+    .modal-overlay {
+        padding: 0;
+    }
+    
+    .modal-container {
+        max-width: 100%;
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+    
+    .modal-header {
+        padding: 0 8px 0 24px;
+    }
+    
+    .modal-title {
+        font-size: 20px;
+    }
+    
+    .modal-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-column {
+        width: 100%;
+        display: none !important;
+    }
+    
+    .modal-column.active {
+        display: block !important;
+    }
+    
+    .modal-column-left {
+        padding: 24px;
+    }
+    
+    .modal-column-left.active {
+        display: block !important;
+    }
+    
+    .modal-column-right {
+        padding: 0;
+        display: none !important;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .modal-column-right.active {
+        display: flex !important;
+    }
+    
+    .column-separator {
+        display: none;
+    }
+    
+    .modal-actions {
+        padding: 24px;
+    }
+    
+    .edit-post-button {
+        width: 100%;
+    }
+    
+    .post-preview {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .comment-input-section {
+        height: 96px;
+        padding: 16px;
+        position: relative;
+        margin-top: auto;
+    }
+    
+    .comment-input-section.expanded {
+        margin-top: auto;
+    }
+    
+    .comment-input-wrapper {
+        /* Allow natural height behavior */
+    }
+    
+    .comments-content {
+        padding-bottom: 0;
+        flex: 1;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-container {
+        border-radius: 0;
+    }
+    
+    .modal-header {
+        padding: 0 8px 0 20px;
+    }
+    
+    .modal-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-column {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .modal-column-right {
+        display: none;
+    }
+    
+    .column-separator {
+        display: none;
+    }
+    
+    .modal-actions {
+        padding: 0 20px;
+    }
+}
