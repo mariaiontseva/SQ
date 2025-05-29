@@ -140,11 +140,17 @@ body {
     background-color: #B8C8DD;
 }
 
+/* Scrollbar right margin */
+.comments-content::-webkit-scrollbar-track,
+.modal-column::-webkit-scrollbar-track {
+    margin-right: 4px;
+}
+
 /* Modal Columns */
 .modal-column {
     flex: 1 1 50%;
     min-width: 0;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 
 .modal-column-left {
@@ -160,12 +166,12 @@ body {
 .comments-content {
     flex: 1;
     padding: 0 16px 16px 16px;
-    overflow-y: auto;
+    overflow-y: overlay;
+    overflow-x: hidden;
     background-color: transparent;
     min-height: 0;
     position: relative;
     z-index: 1;
-    overflow-x: hidden;
 }
 
 /* Custom scrollbar for comments area */
@@ -469,8 +475,6 @@ body {
     border: 1px solid #CDD9E9;
     overflow: hidden;
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
 }
 
 .post-header {
