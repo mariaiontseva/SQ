@@ -2,6 +2,7 @@
 function animateCounter(element, target, duration = 1800) {
     const startTime = performance.now();
     let lastDisplayed = -1;
+    const plusSign = document.querySelector('.counter-plus');
 
     // Smooth easing
     const easeOutQuad = (t) => {
@@ -30,14 +31,24 @@ function animateCounter(element, target, duration = 1800) {
 
         // Only update if value changed
         if (current !== lastDisplayed) {
-            element.textContent = current.toLocaleString();
-            lastDisplayed = current;
+            // Smooth fade for number change
+            element.style.opacity = '0.85';
+            setTimeout(() => {
+                element.textContent = current.toLocaleString();
+                element.style.opacity = '1';
+                lastDisplayed = current;
+            }, 40);
         }
 
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
             element.textContent = target.toLocaleString();
+            element.style.opacity = '1';
+            // Show plus sign when finished
+            setTimeout(() => {
+                plusSign.classList.add('visible');
+            }, 100);
         }
     }
 

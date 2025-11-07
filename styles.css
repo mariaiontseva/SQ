@@ -65,6 +65,7 @@ body {
     width: 320px;
     display: inline-block;
     text-align: right;
+    transition: opacity 0.15s ease;
 }
 
 .counter-plus {
@@ -74,6 +75,11 @@ body {
     line-height: 1;
     color: #ffffff;
     margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.counter-plus.visible {
     opacity: 0.9;
 }
 
