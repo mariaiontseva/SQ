@@ -112,17 +112,17 @@
     </div>
 
     <script>
-        // Smooth counter animation with exponential easing
-        function animateCounter(element, target, duration = 2500) {
+        // Smooth counter animation with cubic easing
+        function animateCounter(element, target, duration = 1500) {
             const startTime = performance.now();
 
-            // Exponential easing for natural deceleration
-            const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+            // Cubic easing for smoother, faster feel
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
             function updateCounter(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                const easedProgress = easeOutExpo(progress);
+                const easedProgress = easeOutCubic(progress);
                 const current = Math.floor(easedProgress * target);
 
                 // Format with locale-specific thousands separator
@@ -150,7 +150,7 @@
             setTimeout(() => {
                 console.log('▶️  Starting counter animation...');
                 animateCounter(counterElement, target);
-            }, 400);
+            }, 200);
         });
 
         // Optional: Restart animation on click

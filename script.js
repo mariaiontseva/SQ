@@ -1,17 +1,17 @@
 // Brand Counter Animation
-function animateCounter(element, target, duration = 2500) {
+function animateCounter(element, target, duration = 1500) {
     const start = 0;
     const startTime = performance.now();
 
-    // Easing function for smooth animation
-    const easeOutExpo = (t) => {
-        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    // Cubic easing for smoother, faster feel
+    const easeOutCubic = (t) => {
+        return 1 - Math.pow(1 - t, 3);
     };
 
     function updateCounter(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutExpo(progress);
+        const easedProgress = easeOutCubic(progress);
         const current = Math.floor(easedProgress * target);
 
         // Format number with comma
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start animation after a brief delay
     setTimeout(() => {
         animateCounter(counterElement, target);
-    }, 300);
+    }, 200);
 });
 
 // Modal functionality
