@@ -31,6 +31,7 @@
             align-items: baseline;
             justify-content: center;
             margin-bottom: 20px;
+            position: relative;
         }
 
         .counter-number {
@@ -42,7 +43,7 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.08s cubic-bezier(0.4, 0.0, 0.2, 1);
             font-variant-numeric: tabular-nums;
-            min-width: 320px;
+            width: 320px;
             display: inline-block;
             text-align: right;
             will-change: transform, filter;
@@ -59,13 +60,13 @@
 
         @media (max-width: 768px) {
             .counter-number {
-                min-width: 240px;
+                width: 240px;
             }
         }
 
         @media (max-width: 480px) {
             .counter-number {
-                min-width: 180px;
+                width: 180px;
             }
         }
 
