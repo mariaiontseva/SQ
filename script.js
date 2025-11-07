@@ -1,26 +1,47 @@
-// Brand Counter Animation
-function animateCounter(element, target, duration = 1500) {
-    const start = 0;
+// Ultra-smooth counter with smart stepping
+function animateCounter(element, target, duration = 1200) {
     const startTime = performance.now();
+    let lastDisplayed = -1;
 
-    // Cubic easing for smoother, faster feel
-    const easeOutCubic = (t) => {
-        return 1 - Math.pow(1 - t, 3);
+    // Superior easing: easeOutQuart - very smooth deceleration
+    const easeOutQuart = (t) => {
+        return 1 - Math.pow(1 - t, 4);
     };
+
+    // Smart step calculator - shows fewer numbers as we get closer to target
+    function getSmartStep(current, target, progress) {
+        const remaining = target - current;
+        if (remaining > 5000) return 500;
+        if (remaining > 2000) return 200;
+        if (remaining > 1000) return 100;
+        if (remaining > 500) return 50;
+        if (remaining > 100) return 25;
+        if (remaining > 50) return 10;
+        return 1;
+    }
+
+    element.classList.add('counting');
 
     function updateCounter(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutCubic(progress);
-        const current = Math.floor(easedProgress * target);
+        const easedProgress = easeOutQuart(progress);
+        const rawValue = easedProgress * target;
 
-        // Format number with comma
-        element.textContent = current.toLocaleString();
+        // Smart stepping - only update on meaningful increments
+        const step = getSmartStep(lastDisplayed, target, progress);
+        const current = Math.floor(rawValue / step) * step;
+
+        if (current !== lastDisplayed && current <= target) {
+            element.textContent = current.toLocaleString();
+            lastDisplayed = current;
+        }
 
         if (progress < 1) {
             requestAnimationFrame(updateCounter);
         } else {
             element.textContent = target.toLocaleString();
+            element.classList.remove('counting');
             element.classList.add('animated');
         }
     }

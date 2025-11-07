@@ -61,7 +61,11 @@ body {
     line-height: 1;
     color: #ffffff;
     letter-spacing: -2px;
-    transition: transform 0.3s ease;
+    transition: transform 0.15s ease-out;
+}
+
+.counter-number.counting {
+    transform: scale(1.05);
 }
 
 .counter-plus {
