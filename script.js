@@ -1,18 +1,18 @@
 // Smooth counter with smart intervals
-function animateCounter(element, target, duration = 1800) {
+function animateCounter(element, target, duration = 2000) {
     const startTime = performance.now();
     let lastDisplayed = -1;
     const plusSign = document.querySelector('.counter-plus');
 
-    // Smooth easing
-    const easeOutQuad = (t) => {
-        return t * (2 - t);
+    // Smooth easing - more gradual
+    const easeOutCubic = (t) => {
+        return 1 - Math.pow(1 - t, 3);
     };
 
     function animate(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutQuad(progress);
+        const easedProgress = easeOutCubic(progress);
 
         // Calculate raw value
         const rawValue = easedProgress * target;
@@ -32,23 +32,36 @@ function animateCounter(element, target, duration = 1800) {
         // Only update if value changed
         if (current !== lastDisplayed) {
             // Smooth fade for number change
-            element.style.opacity = '0.85';
+            element.style.opacity = '0.7';
             setTimeout(() => {
                 element.textContent = current.toLocaleString();
                 element.style.opacity = '1';
                 lastDisplayed = current;
-            }, 40);
+            }, 50);
         }
 
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
-            element.textContent = target.toLocaleString();
-            element.style.opacity = '1';
-            // Show plus sign when finished
+            // Торжественное финальное появление
+            element.style.opacity = '0';
+            element.style.transform = 'scale(0.95)';
+
             setTimeout(() => {
-                plusSign.classList.add('visible');
-            }, 100);
+                element.textContent = target.toLocaleString();
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'scale(1)';
+
+                // Show plus sign with celebration
+                setTimeout(() => {
+                    plusSign.style.transform = 'scale(0.8)';
+                    plusSign.classList.add('visible');
+                    setTimeout(() => {
+                        plusSign.style.transform = 'scale(1)';
+                    }, 100);
+                }, 300);
+            }, 150);
         }
     }
 
