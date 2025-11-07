@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Counter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Brand Counter Section */
+        .brand-counter-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4075BF 0%, #255DAD 100%);
+            padding: 60px 20px;
+        }
+
+        .brand-counter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .counter-wrapper {
+            display: inline-flex;
+            align-items: baseline;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .counter-number {
+            font-size: 96px;
+            font-weight: 700;
+            line-height: 1;
+            color: #ffffff;
+            letter-spacing: -2px;
+            transition: transform 0.3s ease;
+        }
+
+        .counter-plus {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1;
+            color: #ffffff;
+            margin-left: 8px;
+            opacity: 0.9;
+        }
+
+        .counter-text {
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #ffffff;
+            margin: 0;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+
+        /* Add animation to counter */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .counter-number.animated {
+            animation: countUp 0.6s ease-out;
+        }
+
+        /* Responsive adjustments for brand counter */
+        @media (max-width: 768px) {
+            .counter-number {
+                font-size: 72px;
+            }
+
+            .counter-plus {
+                font-size: 48px;
+            }
+
+            .counter-text {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .counter-number {
+                font-size: 56px;
+            }
+
+            .counter-plus {
+                font-size: 40px;
+            }
+
+            .counter-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Brand Counter Hero Section -->
+    <div class="brand-counter-section">
+        <div class="brand-counter-container">
+            <div class="counter-wrapper">
+                <span class="counter-number" data-target="13000">0</span>
+                <span class="counter-plus">+</span>
+            </div>
+            <p class="counter-text">brands have chosen SmarterQueue</p>
+        </div>
+    </div>
+
+    <script>
+        // Brand Counter Animation
+        function animateCounter(element, target, duration = 2500) {
+            const start = 0;
+            const startTime = performance.now();
+
+            // Easing function for smooth animation
+            const easeOutExpo = (t) => {
+                return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+            };
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easedProgress = easeOutExpo(progress);
+                const current = Math.floor(easedProgress * target);
+
+                // Format number with comma
+                element.textContent = current.toLocaleString();
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target.toLocaleString();
+                    element.classList.add('animated');
+                }
+            }
+
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Initialize counter animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const counterElement = document.querySelector('.counter-number');
+            const target = parseInt(counterElement.getAttribute('data-target'));
+
+            console.log('Counter initialized with target:', target);
+
+            // Start animation after a brief delay
+            setTimeout(() => {
+                console.log('Starting counter animation...');
+                animateCounter(counterElement, target);
+            }, 300);
+        });
+    </script>
+</body>
+</html>
