@@ -1,23 +1,25 @@
-// Ultra-smooth counter with smart stepping
-function animateCounter(element, target, duration = 1200) {
+// Buttery smooth counter with micro-animations
+function animateCounter(element, target, duration = 1400) {
     const startTime = performance.now();
     let lastDisplayed = -1;
+    let lastFrameTime = startTime;
 
-    // Superior easing: easeOutQuart - very smooth deceleration
-    const easeOutQuart = (t) => {
-        return 1 - Math.pow(1 - t, 4);
+    // Ultra-smooth easing: custom curve for perfect feel
+    const easeOutQuint = (t) => {
+        return 1 - Math.pow(1 - t, 5);
     };
 
-    // Smart step calculator - shows fewer numbers as we get closer to target
-    function getSmartStep(current, target, progress) {
-        const remaining = target - current;
-        if (remaining > 5000) return 500;
-        if (remaining > 2000) return 200;
-        if (remaining > 1000) return 100;
-        if (remaining > 500) return 50;
-        if (remaining > 100) return 25;
-        if (remaining > 50) return 10;
-        return 1;
+    // Dynamic step calculator - ultra smooth near end
+    function getDynamicStep(progress, remaining) {
+        // More granular steps based on progress AND remaining
+        if (progress < 0.3) return 1000;  // Fast start
+        if (progress < 0.5) return 500;   // Medium speed
+        if (progress < 0.7) return 200;   // Slowing down
+        if (progress < 0.85) return 100;  // Getting close
+        if (remaining > 100) return 50;   // Very smooth
+        if (remaining > 50) return 25;    // Extra smooth
+        if (remaining > 10) return 10;    // Ultra smooth
+        return 5;                         // Butter smooth at end
     }
 
     element.classList.add('counting');
@@ -25,23 +27,29 @@ function animateCounter(element, target, duration = 1200) {
     function updateCounter(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutQuart(progress);
+        const easedProgress = easeOutQuint(progress);
         const rawValue = easedProgress * target;
 
-        // Smart stepping - only update on meaningful increments
-        const step = getSmartStep(lastDisplayed, target, progress);
-        const current = Math.floor(rawValue / step) * step;
+        const remaining = target - lastDisplayed;
+        const step = getDynamicStep(progress, remaining);
+        const current = Math.min(Math.floor(rawValue / step) * step, target);
 
+        // Add micro-animation on digit change
         if (current !== lastDisplayed && current <= target) {
+            element.classList.add('digit-change');
             element.textContent = current.toLocaleString();
             lastDisplayed = current;
+
+            // Remove micro-animation class quickly
+            setTimeout(() => element.classList.remove('digit-change'), 50);
         }
 
         if (progress < 1) {
             requestAnimationFrame(updateCounter);
         } else {
+            // Ensure final value is exact
             element.textContent = target.toLocaleString();
-            element.classList.remove('counting');
+            element.classList.remove('counting', 'digit-change');
             element.classList.add('animated');
         }
     }

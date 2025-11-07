@@ -61,15 +61,21 @@ body {
     line-height: 1;
     color: #ffffff;
     letter-spacing: -2px;
-    transition: transform 0.15s ease-out;
+    transition: all 0.08s cubic-bezier(0.4, 0.0, 0.2, 1);
     font-variant-numeric: tabular-nums;
     min-width: 320px;
     display: inline-block;
     text-align: right;
+    will-change: transform, filter;
 }
 
 .counter-number.counting {
-    transform: scale(1.05);
+    filter: blur(0.5px);
+    transform: scale(1.02);
+}
+
+.counter-number.digit-change {
+    transform: scale(1.01) translateY(-2px);
 }
 
 .counter-plus {
