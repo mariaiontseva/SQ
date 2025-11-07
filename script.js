@@ -1,3 +1,44 @@
+// Brand Counter Animation
+function animateCounter(element, target, duration = 2500) {
+    const start = 0;
+    const startTime = performance.now();
+
+    // Easing function for smooth animation
+    const easeOutExpo = (t) => {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    };
+
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutExpo(progress);
+        const current = Math.floor(easedProgress * target);
+
+        // Format number with comma
+        element.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = target.toLocaleString();
+            element.classList.add('animated');
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+// Initialize counter animation on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const counterElement = document.querySelector('.counter-number');
+    const target = parseInt(counterElement.getAttribute('data-target'));
+
+    // Start animation after a brief delay
+    setTimeout(() => {
+        animateCounter(counterElement, target);
+    }, 300);
+});
+
 // Modal functionality
 document.addEventListener('DOMContentLoaded', function() {
     const modalOverlay = document.getElementById('modalOverlay');
