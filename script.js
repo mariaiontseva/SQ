@@ -1,25 +1,26 @@
 // Buttery smooth counter with micro-animations
-function animateCounter(element, target, duration = 1400) {
+function animateCounter(element, target, duration = 1600) {
     const startTime = performance.now();
     let lastDisplayed = -1;
     let lastFrameTime = startTime;
 
-    // Ultra-smooth easing: custom curve for perfect feel
-    const easeOutQuint = (t) => {
-        return 1 - Math.pow(1 - t, 5);
+    // Ultra-smooth easing: bezier-like curve
+    const easeOutExpo = (t) => {
+        return t === 1 ? 1 : 1 - Math.pow(2, -8 * t);
     };
 
-    // Dynamic step calculator - ultra smooth near end
+    // Hyper-smooth step calculator
     function getDynamicStep(progress, remaining) {
-        // More granular steps based on progress AND remaining
-        if (progress < 0.3) return 1000;  // Fast start
-        if (progress < 0.5) return 500;   // Medium speed
-        if (progress < 0.7) return 200;   // Slowing down
-        if (progress < 0.85) return 100;  // Getting close
-        if (remaining > 100) return 50;   // Very smooth
-        if (remaining > 50) return 25;    // Extra smooth
-        if (remaining > 10) return 10;    // Ultra smooth
-        return 5;                         // Butter smooth at end
+        // Super fine-grained steps for maximum smoothness
+        if (progress < 0.25) return 1000;  // Fast start
+        if (progress < 0.45) return 500;   // Medium speed
+        if (progress < 0.65) return 200;   // Slowing down
+        if (progress < 0.80) return 100;   // Getting smooth
+        if (progress < 0.90) return 50;    // Very smooth
+        if (remaining > 50) return 25;     // Extra smooth
+        if (remaining > 20) return 10;     // Ultra smooth
+        if (remaining > 5) return 5;       // Super smooth
+        return 1;                          // Pixel perfect at end
     }
 
     element.classList.add('counting');
@@ -27,7 +28,7 @@ function animateCounter(element, target, duration = 1400) {
     function updateCounter(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutQuint(progress);
+        const easedProgress = easeOutExpo(progress);
         const rawValue = easedProgress * target;
 
         const remaining = target - lastDisplayed;
@@ -41,7 +42,7 @@ function animateCounter(element, target, duration = 1400) {
             lastDisplayed = current;
 
             // Remove micro-animation class quickly
-            setTimeout(() => element.classList.remove('digit-change'), 50);
+            setTimeout(() => element.classList.remove('digit-change'), 80);
         }
 
         if (progress < 1) {
