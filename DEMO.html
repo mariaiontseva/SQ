@@ -40,30 +40,10 @@
             line-height: 1;
             color: #ffffff;
             letter-spacing: -2px;
-            text-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.1),
-                0 0 30px rgba(255, 255, 255, 0);
-            transition: all 0.12s cubic-bezier(0.25, 0.1, 0.25, 1);
             font-variant-numeric: tabular-nums;
             width: 320px;
             display: inline-block;
             text-align: right;
-            will-change: transform, filter, opacity, text-shadow;
-        }
-
-        .counter-number.counting {
-            filter: blur(1px) brightness(1.05);
-            transform: scale(1.015);
-            opacity: 0.92;
-            text-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.1),
-                0 0 40px rgba(255, 255, 255, 0.3);
-        }
-
-        .counter-number.digit-change {
-            transform: scale(1.008) translateY(-1px);
-            filter: blur(0.3px);
-            opacity: 0.96;
         }
 
         @media (max-width: 768px) {
@@ -148,62 +128,35 @@
     </div>
 
     <script>
-        // Buttery smooth counter with micro-animations
-        function animateCounter(element, target, duration = 1600) {
+        // Clean, smooth counter animation
+        function animateCounter(element, target, duration = 2000) {
             const startTime = performance.now();
-            let lastDisplayed = -1;
-            let lastFrameTime = startTime;
 
-            // Ultra-smooth easing: bezier-like curve
-            const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -8 * t);
+            // Smooth easing function
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-            // Hyper-smooth step calculator
-            function getDynamicStep(progress, remaining) {
-                // Super fine-grained steps for maximum smoothness
-                if (progress < 0.25) return 1000;  // Fast start
-                if (progress < 0.45) return 500;   // Medium speed
-                if (progress < 0.65) return 200;   // Slowing down
-                if (progress < 0.80) return 100;   // Getting smooth
-                if (progress < 0.90) return 50;    // Very smooth
-                if (remaining > 50) return 25;     // Extra smooth
-                if (remaining > 20) return 10;     // Ultra smooth
-                if (remaining > 5) return 5;       // Super smooth
-                return 1;                          // Pixel perfect at end
-            }
-
-            element.classList.add('counting');
-
-            function updateCounter(currentTime) {
+            function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                const easedProgress = easeOutExpo(progress);
-                const rawValue = easedProgress * target;
 
-                const remaining = target - lastDisplayed;
-                const step = getDynamicStep(progress, remaining);
-                const current = Math.min(Math.floor(rawValue / step) * step, target);
+                // Apply easing
+                const easedProgress = easeOutCubic(progress);
 
-                // Add micro-animation on digit change
-                if (current !== lastDisplayed && current <= target) {
-                    element.classList.add('digit-change');
-                    element.textContent = current.toLocaleString();
-                    lastDisplayed = current;
+                // Calculate current value
+                const current = Math.floor(easedProgress * target);
 
-                    // Remove micro-animation class quickly
-                    setTimeout(() => element.classList.remove('digit-change'), 80);
-                }
+                // Update display
+                element.textContent = current.toLocaleString();
 
+                // Continue animation or finish
                 if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
+                    requestAnimationFrame(animate);
                 } else {
-                    // Ensure final value is exact
                     element.textContent = target.toLocaleString();
-                    element.classList.remove('counting', 'digit-change');
-                    element.classList.add('animated');
                 }
             }
 
-            requestAnimationFrame(updateCounter);
+            requestAnimationFrame(animate);
         }
 
         // Initialize on page load
