@@ -1,26 +1,39 @@
-// Clean, smooth counter animation
-function animateCounter(element, target, duration = 2000) {
+// Smooth counter with smart intervals
+function animateCounter(element, target, duration = 1800) {
     const startTime = performance.now();
+    let lastDisplayed = -1;
 
-    // Smooth easing function
-    const easeOutCubic = (t) => {
-        return 1 - Math.pow(1 - t, 3);
+    // Smooth easing
+    const easeOutQuad = (t) => {
+        return t * (2 - t);
     };
 
     function animate(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutQuad(progress);
 
-        // Apply easing
-        const easedProgress = easeOutCubic(progress);
+        // Calculate raw value
+        const rawValue = easedProgress * target;
 
-        // Calculate current value
-        const current = Math.floor(easedProgress * target);
+        // Smart rounding - larger steps when far, smaller when close
+        let step;
+        if (rawValue < 1000) step = 100;
+        else if (rawValue < 5000) step = 250;
+        else if (rawValue < 10000) step = 500;
+        else if (rawValue < 12000) step = 200;
+        else if (rawValue < 12800) step = 100;
+        else if (rawValue < 12950) step = 50;
+        else step = 10;
 
-        // Update display
-        element.textContent = current.toLocaleString();
+        const current = Math.min(Math.floor(rawValue / step) * step, target);
 
-        // Continue animation or finish
+        // Only update if value changed
+        if (current !== lastDisplayed) {
+            element.textContent = current.toLocaleString();
+            lastDisplayed = current;
+        }
+
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
